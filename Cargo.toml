@@ -1,0 +1,43 @@
+[package]
+name = "mosp"
+version = "0.1.0"
+edition = "2021"
+description = "A cross-platform whiteboard application"
+authors = ["Your Name <your.email@example.com>"]
+
+[dependencies]
+# UI Framework
+slint = "1.4"  # UI framework
+tokio = { version = "1.36", features = ["full"] }  # Async runtime
+
+# Storage
+sled = "0.34"  # High-performance embedded database
+rusqlite = { version = "0.31", features = ["bundled"] }  # SQLite wrapper
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }  # Serialization framework
+serde_json = "1.0"  # JSON serialization
+
+# Logging and debugging
+tracing = "0.1"  # Logging framework
+tracing-subscriber = "0.3"  # Logging subscriber
+
+# Error handling
+thiserror = "1.0"  # Error handling
+anyhow = "1.0"  # Error handling
+
+[build-dependencies]
+slint-build = "1.4"  # Slint UI compiler
+
+[dev-dependencies]
+tokio-test = "0.4"  # Testing utilities
+
+# 配置不同平台特定依赖
+[target.'cfg(target_os = "macos")'.dependencies]
+core-graphics = "0.22.3"
+
+[target.'cfg(target_os = "ios")'.dependencies]
+core-graphics = "0.22.3"
+
+[target.'cfg(target_os = "windows")'.dependencies]
+windows = { version = "0.48", features = ["Win32_Graphics_Direct2D"] }

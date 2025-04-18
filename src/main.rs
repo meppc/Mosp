@@ -1,5 +1,6 @@
 
 mod app;
+mod canvas;
 mod config;
 mod error;
 mod event;

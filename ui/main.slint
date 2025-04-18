@@ -1,0 +1,99 @@
+// Main UI definition for Mosp
+
+import { Button, VerticalBox, HorizontalBox, LineEdit } from "std-widgets.slint";
+
+export component MainWindow inherits Window {
+    title: "Mosp";
+    min-width: 800px;
+    min-height: 600px;
+    
+    // Callback for exit button
+    callback exit();
+    
+    VerticalBox {
+        HorizontalBox {
+            padding: 8px;
+            spacing: 8px;
+            
+            Text {
+                text: "Mosp";
+                font-size: 24px;
+                font-weight: 700;
+                vertical-alignment: center;
+            }
+            
+            Rectangle {
+                width: 1px;
+                background: #ccc;
+            }
+            
+            Button {
+                text: "New";
+                min-width: 80px;
+            }
+            
+            Button {
+                text: "Open";
+                min-width: 80px;
+            }
+            
+            Button {
+                text: "Save";
+                min-width: 80px;
+            }
+            
+            Rectangle {
+                horizontal-stretch: 1;
+            }
+            
+            Button {
+                text: "Exit";
+                min-width: 80px;
+                clicked => {
+                    root.exit();
+                }
+            }
+        }
+        
+        Rectangle {
+            height: 1px;
+            background: #ccc;
+        }
+        
+        Rectangle {
+            background: #f5f5f5;
+            vertical-stretch: 1;
+            
+            Text {
+                text: "Canvas will be implemented here";
+                font-size: 16px;
+                horizontal-alignment: center;
+                vertical-alignment: center;
+            }
+        }
+        
+        Rectangle {
+            height: 1px;
+            background: #ccc;
+        }
+        
+        HorizontalBox {
+            padding: 8px;
+            spacing: 8px;
+            
+            Text {
+                text: "Status: Ready";
+                vertical-alignment: center;
+            }
+            
+            Rectangle {
+                horizontal-stretch: 1;
+            }
+            
+            Text {
+                text: "Mosp v0.1.0";
+                vertical-alignment: center;
+            }
+        }
+    }
+}

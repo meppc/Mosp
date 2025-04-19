@@ -1,0 +1,37 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Technical Architecture Guide
+
+## Core Features
+- Infinite canvas
+- Multiple drawing tools
+- Real-time collaboration
+- Cross-platform support
+- High-performance rendering
+
+## Technical Stack
+The application uses several key technologies:
+
+### Rendering System
+- **Slint**: Cross-platform GUI framework
+- Platform-specific optimizations:
+  - Windows: DirectComposition
+  - macOS: Core Graphics
+  - iOS/iPadOS: Metal API
+  - Android: OpenGL ES
+
+### Core Technologies
+- **Graphics**: Slint for 4K@60FPS rendering
+- **Input**: winit + core-graphics (200μs event response)
+- **Network Sync**: tokio + y-sweet CRDT (50ms sync latency)
+- **Storage**: sled + SQLite (10k ops/sec throughput)
+- **Security**: rustls + ring with AES-NI acceleration
+
+## Development Requirements
+- Rust 1.75+
+- Cargo package manager
+- CMake (for Slint)
+- C++ compiler

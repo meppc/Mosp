@@ -1,0 +1,26 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Structure Guide
+
+This is a cross-platform whiteboard application built with Rust and Slint. The codebase is organized into several key directories:
+
+## Core Source Code
+The main source code is in [src/](mdc:src) directory:
+- [src/main.rs](mdc:src/main.rs) - Application entry point
+- [src/app.rs](mdc:src/app.rs) - Core application logic
+- [src/config.rs](mdc:src/config.rs) - Configuration management
+- [src/error.rs](mdc:src/error.rs) - Error handling
+- [src/storage.rs](mdc:src/storage.rs) - Data storage implementation
+- [src/window.rs](mdc:src/window.rs) - Window management
+- [src/ui/](mdc:src/ui) - UI components implementation
+
+## UI Definition
+The Slint UI definitions are stored in [ui/](mdc:ui) directory:
+- [ui/main.slint](mdc:ui/main.slint) - Main window UI definition
+
+## Documentation and Configuration
+- [docs/](mdc:docs) - Project documentation
+- [Cargo.toml](mdc:Cargo.toml) - Project dependencies and configuration

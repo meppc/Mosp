@@ -1,18 +1,22 @@
 use std::collections::HashMap;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 use crate::canvas::{Canvas, Point, Transform};
 use crate::error::{Result, Error};
-use super::common::{Tool, ToolType, ToolContext, ToolEvent};
-use super::{BrushTool, ShapeTool, ShapeType, ArrowTool, EraserTool, TextTool, SelectionTool};
+use crate::tools::{Tool, ToolType, ToolContext, ToolEvent};
+use crate::tools::brush::BrushTool;
+use crate::tools::shape::{ShapeTool, ShapeType};
+use crate::tools::arrow::ArrowTool;
+use crate::tools::eraser::EraserTool;
+use crate::tools::text::TextTool;
+use crate::tools::selection::SelectionTool;
 
 pub struct ToolManager {
     tools: HashMap<ToolType, Box<dyn Tool>>,
     active_tool_type: ToolType,
-    canvas: Arc<Canvas>,
 }
 
 impl ToolManager {
-    pub fn new(canvas: Arc<Canvas>) -> Self {
+    pub fn new() -> Self {
         let mut tools = HashMap::new();
         
         tools.insert(ToolType::Brush, Box::new(BrushTool::new()) as Box<dyn Tool>);
@@ -25,7 +29,6 @@ impl ToolManager {
         Self {
             tools,
             active_tool_type: ToolType::Brush, // Default tool
-            canvas,
         }
     }
     
@@ -35,6 +38,18 @@ impl ToolManager {
         }
         
         self.active_tool_type = tool_type;
+        
+        if !self.tools.contains_key(&tool_type) {
+            let new_tool: Box<dyn Tool> = match tool_type {
+                ToolType::Brush => Box::new(BrushTool::new()),
+                ToolType::Shape => Box::new(ShapeTool::new(ShapeType::Rectangle)),
+                ToolType::Arrow => Box::new(ArrowTool::new()),
+                ToolType::Eraser => Box::new(EraserTool::new()),
+                ToolType::Text => Box::new(TextTool::new()),
+                ToolType::Selection => Box::new(SelectionTool::new()),
+            };
+            self.tools.insert(tool_type, new_tool);
+        }
     }
     
     pub fn get_active_tool(&mut self) -> &mut dyn Tool {
@@ -43,20 +58,13 @@ impl ToolManager {
             .as_mut()
     }
     
-    pub fn handle_event(&mut self, event: ToolEvent, position: Point, pressure: f32, transform: Transform) -> Result<()> {
-        let context = ToolContext {
-            canvas: &self.canvas,
-            position,
-            pressure,
-            transform,
-        };
-        
+    pub fn handle_event(&mut self, event: ToolEvent, context: ToolContext) -> Result<()> {
         let tool = self.get_active_tool();
         tool.handle_event(event.clone(), context)?;
         
         if let ToolEvent::Up { .. } = event {
             if let Some(element) = tool.create_element() {
-                self.canvas.add_element(element)?;
+                // self.canvas.add_element(element)?;
                 tool.reset();
             }
         }

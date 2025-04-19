@@ -1,14 +1,12 @@
 
-use slint::{SharedString, Weak};
-
-use crate::ui::MainWindow;
+use slint::Weak;
 
 pub struct WindowManager {
-    main_window: Weak<MainWindow>,
+    main_window: Weak<crate::ui::MainWindow>,
 }
 
 impl WindowManager {
-    pub fn new(main_window: Weak<MainWindow>) -> Self {
+    pub fn new(main_window: Weak<crate::ui::MainWindow>) -> Self {
         Self { main_window }
     }
     

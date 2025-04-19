@@ -1,8 +1,21 @@
 import { Button, VerticalBox, HorizontalBox, LineEdit } from "std-widgets.slint";
+import { CanvasView } from "../src/ui/canvas_view.slint";
 
-// Main window component for Mosp application
+// 为 Mosp 应用程序创建的主窗口组件
 export component MainWindow inherits Window {
-    title: "Mosp";
+    // 接收本地化文本的属性
+    in-out property <string> app_title: "墨司";
+    in-out property <string> canvas_placeholder: "画布将在此处实现";
+    in-out property <string> properties: "属性";
+    in-out property <string> tool_properties: "工具属性将在此处显示";
+    in-out property <string> brush_tool: "画笔";
+    in-out property <string> shape_tool: "形状";
+    in-out property <string> arrow_tool: "箭头";
+    in-out property <string> eraser_tool: "橡皮擦";
+    in-out property <string> text_tool: "文本";
+    in-out property <string> selection_tool: "选择";
+    
+    title: app_title;
     min-width: 800px;
     min-height: 600px;
     
@@ -164,32 +177,19 @@ export component MainWindow inherits Window {
             }
             
             // Canvas area
-            Rectangle {
+            CanvasView {
                 horizontal-stretch: 1;
-                background: white;
-                border-width: 1px;
-                border-color: #ccc;
                 
-                Text {
-                    text: "Canvas will be implemented here";
-                    font-size: 16px;
-                    horizontal-alignment: center;
-                    vertical-alignment: center;
-                    color: #888;
+                draw-start(point) => {
+                    // 实现工具对应的绘制开始逻辑
                 }
                 
-                // Canvas interaction area
-                TouchArea {
-                    property <bool> is-pressed: false;
-                    property <Point> last-position: {x: 0, y: 0};
-                    
-                    clicked => {
-                        is-pressed = true;
-                        // Handle tool down event
-                    }
-                    
-                    // Simplify for now to get the build working
-                    // We'll implement proper event handling later
+                draw-move(point) => {
+                    // 实现工具对应的绘制移动逻辑
+                }
+                
+                draw-end(point) => {
+                    // 实现工具对应的绘制结束逻辑
                 }
             }
             
@@ -200,7 +200,7 @@ export component MainWindow inherits Window {
                 spacing: 8px;
                 
                 Text {
-                    text: "Properties";
+                    text: properties;
                     font-weight: 700;
                 }
                 
@@ -212,7 +212,7 @@ export component MainWindow inherits Window {
                 // Tool-specific properties will be shown here
                 // This is a placeholder
                 Text {
-                    text: "Tool properties will be shown here";
+                    text: tool_properties;
                     font-size: 12px;
                     wrap: word-wrap;
                 }

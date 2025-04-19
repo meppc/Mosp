@@ -2,7 +2,7 @@ use std::any::Any;
 use crate::canvas::{Canvas, Point, Transform, CanvasElement};
 use crate::error::{Result, Error};
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum ToolType {
     Brush,
     Shape,
@@ -31,15 +31,15 @@ impl Clone for ToolEvent {
     fn clone(&self) -> Self {
         match self {
             Self::Down { position, pressure } => Self::Down { 
-                position: position.clone(), 
+                position: *position, 
                 pressure: *pressure 
             },
             Self::Move { position, pressure } => Self::Move { 
-                position: position.clone(), 
+                position: *position, 
                 pressure: *pressure 
             },
             Self::Up { position } => Self::Up { 
-                position: position.clone() 
+                position: *position 
             },
             Self::PropertyChanged { name, .. } => Self::PropertyChanged { 
                 name: name.clone(), 

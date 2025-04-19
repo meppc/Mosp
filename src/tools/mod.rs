@@ -1,11 +1,12 @@
 
-mod brush;
-mod shape;
-mod arrow;
-mod eraser;
-mod text;
-mod selection;
-mod common;
+pub mod brush;
+pub mod shape;
+pub mod arrow;
+pub mod eraser;
+pub mod text;
+pub mod selection;
+pub mod common;
+pub mod manager;
 
 pub use brush::BrushTool;
 pub use shape::{ShapeTool, ShapeType};

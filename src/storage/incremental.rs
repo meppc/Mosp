@@ -1,7 +1,7 @@
-
-use crate::error::{Error, Result};
+use crate::error::Result;
 use std::path::Path;
 
+#[derive(Debug)]
 pub struct IncrementalStorage {
     db: sled::Db,
 }
@@ -20,7 +20,7 @@ impl IncrementalStorage {
     
     pub fn get(&self, key: &str) -> Result<Option<Vec<u8>>> {
         let result = self.db.get(key.as_bytes())?;
-        Ok(result.map(|ivec| ivec.to_vec()))
+        Ok(result.map(|v| v.to_vec()))
     }
     
     pub fn delete(&self, key: &str) -> Result<()> {
@@ -34,12 +34,11 @@ impl IncrementalStorage {
     }
     
     pub fn scan_prefix(&self, prefix: &str) -> Vec<String> {
-        let prefix_bytes = prefix.as_bytes();
         self.db
-            .scan_prefix(prefix_bytes)
-            .filter_map(|res| {
-                res.ok().map(|(key, _)| {
-                    String::from_utf8_lossy(&key).to_string()
+            .scan_prefix(prefix.as_bytes())
+            .filter_map(|item| {
+                item.ok().and_then(|(key, _)| {
+                    String::from_utf8(key.to_vec()).ok()
                 })
             })
             .collect()

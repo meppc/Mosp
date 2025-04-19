@@ -1,8 +1,9 @@
-
 use crate::error::{Error, Result};
-use rusqlite::{params, Connection, Row};
+use rusqlite::{Connection, Row};
 use std::path::Path;
 
+// 添加 Debug 特性实现
+#[derive(Debug)]
 pub struct RelationalStorage {
     conn: Connection,
 }
@@ -71,7 +72,8 @@ impl RelationalStorage {
         Ok(results)
     }
     
-    pub fn transaction(&self) -> Result<rusqlite::Transaction> {
+    // 修改参数从 &self 改为 &mut self
+    pub fn transaction(&mut self) -> Result<rusqlite::Transaction> {
         Ok(self.conn.transaction()?)
     }
 }

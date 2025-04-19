@@ -1,11 +1,12 @@
-
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 use serde::{Deserialize, Serialize};
 use crate::error::Result;
 use crate::event::{global_event_bus, events::CanvasViewChangeEvent};
+use std::fmt::Debug;
 
-pub trait CanvasElement: Send + Sync {
+// 添加 Debug 特性约束
+pub trait CanvasElement: Send + Sync + Debug {
     fn render(&self, context: &mut RenderContext);
     
     fn contains(&self, point: Point) -> bool;
@@ -107,7 +108,8 @@ impl Transform {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+// 添加 Clone 特性
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Layer {
     pub id: String,
     pub name: String,

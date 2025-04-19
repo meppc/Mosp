@@ -1,7 +1,7 @@
 [package]
 name = "mosp"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 description = "A cross-platform whiteboard application"
 authors = ["Your Name <your.email@example.com>"]
 
@@ -36,6 +36,7 @@ slint-build = "1.4"  # Slint UI compiler
 
 [dev-dependencies]
 tokio-test = "0.4"  # Testing utilities
+tempfile = "3.8"  # Temporary file utilities
 
 # 配置不同平台特定依赖
 [target.'cfg(target_os = "macos")'.dependencies]

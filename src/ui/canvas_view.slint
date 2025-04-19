@@ -1,0 +1,37 @@
+// 画布视图组件
+export component CanvasView inherits Rectangle {
+    property <bool> is-drawing: false;
+    property <int> current-tool: 0;
+    property <[Point]> current-path: [];
+    
+    callback draw-start(Point);
+    callback draw-move(Point);
+    callback draw-end(Point);
+    
+    background: white;
+    border-width: 1px;
+    border-color: #ccc;
+    
+    // 绘制状态显示
+    for point in current-path: Rectangle {
+        x: point.x - 1px;
+        y: point.y - 1px;
+        width: 2px;
+        height: 2px;
+        background: black;
+    }
+    
+    // 画布交互区域
+    TouchArea {
+        moved => {
+            if (self.pressed) {
+                draw-move({x: self.mouse-x, y: self.mouse-y});
+            }
+        }
+        
+        clicked => {
+            draw-start({x: self.mouse-x, y: self.mouse-y});
+            draw-end({x: self.mouse-x, y: self.mouse-y});
+        }
+    }
+}

@@ -1,0 +1,224 @@
+import { Button, VerticalBox, HorizontalBox, LineEdit } from "std-widgets.slint";
+import { CanvasView } from "../src/ui/canvas_view.slint";
+
+// 为 Mosp 应用程序创建的主窗口组件
+export component MainWindow inherits Window {
+    // 接收本地化文本的属性
+    in-out property <string> app_title: "墨司";
+    in-out property <string> canvas_placeholder: "画布将在此处实现";
+    in-out property <string> properties: "属性";
+    in-out property <string> tool_properties: "工具属性将在此处显示";
+    in-out property <string> brush_tool: "画笔";
+    in-out property <string> shape_tool: "形状";
+    in-out property <string> arrow_tool: "箭头";
+    in-out property <string> eraser_tool: "橡皮擦";
+    in-out property <string> text_tool: "文本";
+    in-out property <string> selection_tool: "选择";
+    
+    title: app_title;
+    min-width: 800px;
+    min-height: 600px;
+    
+    // Tool state
+    property <int> toolType: 0; // 0: Brush, 1: Shape, 2: Arrow, 3: Eraser, 4: Text, 5: Selection
+    
+    // Callbacks
+    callback exit();
+    callback show_error(string);
+    callback show_info(string);
+    
+    Rectangle {
+        background: #f5f5f5;
+        vertical-stretch: 1;
+        
+        HorizontalBox {
+            padding: 8px;
+            spacing: 8px;
+            
+            // Toolbar
+            VerticalBox {
+                width: 40px;
+                spacing: 8px;
+                
+                // Brush tool
+                Rectangle {
+                    height: 40px;
+                    border-radius: 4px;
+                    background: toolType == 0 ? #e0e0e0 : transparent;
+                    border-width: 1px;
+                    border-color: #ccc;
+                    
+                    Text {
+                        text: "🖌️";
+                        font-size: 20px;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                    }
+                    
+                    TouchArea {
+                        clicked => {
+                            toolType = 0;
+                        }
+                    }
+                }
+                
+                // Shape tool
+                Rectangle {
+                    height: 40px;
+                    border-radius: 4px;
+                    background: toolType == 1 ? #e0e0e0 : transparent;
+                    border-width: 1px;
+                    border-color: #ccc;
+                    
+                    Text {
+                        text: "⬜";
+                        font-size: 20px;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                    }
+                    
+                    TouchArea {
+                        clicked => {
+                            toolType = 1;
+                        }
+                    }
+                }
+                
+                // Arrow tool
+                Rectangle {
+                    height: 40px;
+                    border-radius: 4px;
+                    background: toolType == 2 ? #e0e0e0 : transparent;
+                    border-width: 1px;
+                    border-color: #ccc;
+                    
+                    Text {
+                        text: "➡️";
+                        font-size: 20px;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                    }
+                    
+                    TouchArea {
+                        clicked => {
+                            toolType = 2;
+                        }
+                    }
+                }
+                
+                // Eraser tool
+                Rectangle {
+                    height: 40px;
+                    border-radius: 4px;
+                    background: toolType == 3 ? #e0e0e0 : transparent;
+                    border-width: 1px;
+                    border-color: #ccc;
+                    
+                    Text {
+                        text: "🧽";
+                        font-size: 20px;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                    }
+                    
+                    TouchArea {
+                        clicked => {
+                            toolType = 3;
+                        }
+                    }
+                }
+                
+                // Text tool
+                Rectangle {
+                    height: 40px;
+                    border-radius: 4px;
+                    background: toolType == 4 ? #e0e0e0 : transparent;
+                    border-width: 1px;
+                    border-color: #ccc;
+                    
+                    Text {
+                        text: "T";
+                        font-size: 20px;
+                        font-weight: 700;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                    }
+                    
+                    TouchArea {
+                        clicked => {
+                            toolType = 4;
+                        }
+                    }
+                }
+                
+                // Selection tool
+                Rectangle {
+                    height: 40px;
+                    border-radius: 4px;
+                    background: toolType == 5 ? #e0e0e0 : transparent;
+                    border-width: 1px;
+                    border-color: #ccc;
+                    
+                    Text {
+                        text: "◻️";
+                        font-size: 20px;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                    }
+                    
+                    TouchArea {
+                        clicked => {
+                            toolType = 5;
+                        }
+                    }
+                }
+                
+                Rectangle { vertical-stretch: 1; }
+            }
+            
+            // Canvas area
+            CanvasView {
+                horizontal-stretch: 1;
+                
+                draw-start(point) => {
+                    // 实现工具对应的绘制开始逻辑
+                }
+                
+                draw-move(point) => {
+                    // 实现工具对应的绘制移动逻辑
+                }
+                
+                draw-end(point) => {
+                    // 实现工具对应的绘制结束逻辑
+                }
+            }
+            
+            // Properties panel
+            VerticalBox {
+                width: 200px;
+                padding: 8px;
+                spacing: 8px;
+                
+                Text {
+                    text: properties;
+                    font-weight: 700;
+                }
+                
+                Rectangle {
+                    height: 1px;
+                    background: #ccc;
+                }
+                
+                // Tool-specific properties will be shown here
+                // This is a placeholder
+                Text {
+                    text: tool_properties;
+                    font-size: 12px;
+                    wrap: word-wrap;
+                }
+                
+                Rectangle { vertical-stretch: 1; }
+            }
+        }
+    }
+}
